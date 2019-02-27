@@ -10,12 +10,39 @@ namespace Messenger
             InitializeComponent();
         }
 
+        private bool InputChecker()
+        {
+            if (string.IsNullOrEmpty(textBox7.Text) || !textBox7.Text.Contains("."))
+            {
+                return false;
+            }
+            if(!int.TryParse(textBox8.Text,out int result1) || !int.TryParse(textBox6.Text, out int result2))
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            var messengerForm = new Form2(textBox7.Text, int.Parse(textBox8.Text), int.Parse(textBox6.Text));
-            messengerForm.CallOnTabBack += () => Show();
-            messengerForm.CallOnTabClose += () => Close();
-            messengerForm.Show();
+            if (InputChecker())
+            {
+                var messengerForm = new Form2(textBox7.Text, int.Parse(textBox8.Text), int.Parse(textBox6.Text));
+                messengerForm.CallOnTabBack += () => Show();
+                messengerForm.CallOnTabClose += () => Close();
+                messengerForm.Show();
+                Hide();
+            }
+            else
+            {
+                MessageBox.Show("Неверно написанные данные");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var hackerForm = new HackerForm();
+            hackerForm.Show();
             Hide();
         }
     }
