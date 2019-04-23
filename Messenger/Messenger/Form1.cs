@@ -41,9 +41,14 @@ namespace Messenger
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var hackerForm = new HackerForm();
+            var hackerForm = new HackerForm(textBox7.Text, int.Parse(textBox6.Text));
             hackerForm.Show();
             Hide();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

